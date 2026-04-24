@@ -8,7 +8,7 @@ type Color = {
 };
 
 export function generateStaticParams() {
-  return colors.map((color) => ({ color: color.name }));
+  return colors.map((color) => ({ color: encodeURIComponent(color.name) }));
 }
 
 export default async function ColorPage({
@@ -17,7 +17,7 @@ export default async function ColorPage({
   params: Promise<{ color: string }>;
 }) {
   const { color: colorName } = await params;
-  const color = colors.find((item) => item.name === colorName);
+  const color = colors.find((item) => item.name === decodeURIComponent(colorName));
 
   if (!color) {
     notFound();
