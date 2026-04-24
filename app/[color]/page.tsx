@@ -11,8 +11,13 @@ export function generateStaticParams() {
   return colors.map((color) => ({ color: color.name }));
 }
 
-export default function ColorPage({ params }: { params: { color: string } }) {
-  const color = colors.find((item) => item.name === params.color);
+export default async function ColorPage({
+  params,
+}: {
+  params: Promise<{ color: string }>;
+}) {
+  const { color: colorName } = await params;
+  const color = colors.find((item) => item.name === colorName);
 
   if (!color) {
     notFound();
