@@ -7,6 +7,7 @@ type Color = {
   hex: string;
 };
 
+// remove this to convert from SSG to SSR
 export function generateStaticParams() {
   return colors.map((color) => ({ color: encodeURIComponent(color.name) }));
 }
@@ -17,7 +18,9 @@ export default async function ColorPage({
   params: Promise<{ color: string }>;
 }) {
   const { color: colorName } = await params;
-  const color = colors.find((item) => item.name === decodeURIComponent(colorName));
+  const color = colors.find(
+    (item) => item.name === decodeURIComponent(colorName),
+  );
 
   if (!color) {
     notFound();
